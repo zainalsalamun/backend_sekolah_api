@@ -1,58 +1,231 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏫 Backend Sekolah API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Backend Laravel REST API untuk Aplikasi Mobile Sekolah. Menyediakan API untuk siswa, guru, admin, dan superadmin.
 
-## About Laravel
+## 🛠 Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Framework:** Laravel 12
+- **Bahasa:** PHP 8+
+- **Database:** PostgreSQL
+- **Auth:** Laravel Sanctum (API) + Laravel Auth (Web Admin)
+- **ORM:** Eloquent
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📦 Fitur
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- 🔐 Authentication (Login/Logout)
+- 📊 Dashboard (Siswa & Guru)
+- 📅 Jadwal Pelajaran
+- 📝 Nilai / Rapor
+- 📋 Absensi
+- 📢 Pengumuman
+- 📰 Artikel
+- 📚 E-Book
+- 🔔 Notifikasi
+- 📌 Tugas / PR
+- ⭐ Poin Siswa
+- 📄 Izin Siswa
+- 📝 Catatan Guru
+- 👤 Profil Siswa
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🚀 Instalasi
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Prasyarat
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+- PHP 8.2+
+- Composer
+- PostgreSQL
+- Node.js & NPM (opsional, untuk asset)
 
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Langkah Setup
 
 ```bash
-composer require laravel/boost --dev
+# 1. Clone repository
+git clone https://github.com/zainalsalamun/backend_sekolah_api.git
+cd backend_sekolah_api
 
-php artisan boost:install
+# 2. Install dependencies
+composer install
+
+# 3. Copy environment file
+cp .env.example .env
+
+# 4. Generate application key
+php artisan key:generate
+
+# 5. Konfigurasi database di .env
+# DB_CONNECTION=pgsql
+# DB_HOST=127.0.0.1
+# DB_PORT=5432
+# DB_DATABASE=db_sekolah
+# DB_USERNAME=postgres
+# DB_PASSWORD=
+
+# 6. Buat database
+psql -U postgres -c "CREATE DATABASE db_sekolah;"
+
+# 7. Jalankan migrasi
+php artisan migrate
+
+# 8. Jalankan seeder (data dummy untuk testing)
+php artisan db:seed
+
+# 9. Jalankan server
+php artisan serve --port=8000
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Jalankan seeder ulang
 
-## Contributing
+```bash
+php artisan migrate:fresh --seed
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 🔑 Data Login (Default)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Web Admin Panel (`http://localhost:8000/admin/login`)
 
-## Security Vulnerabilities
+| Role | Email | Password |
+|------|-------|----------|
+| **Admin** | `admin@sekolah.sch.id` | `admin123` |
+| **Superadmin** | `superadmin@sekolah.sch.id` | `superadmin123` |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+> ⚠️ Admin web panel login menggunakan **email**, bukan username.
 
-## License
+### Mobile App API (Login via `/api/login`)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Role | Username | Password |
+|------|----------|----------|
+| **Siswa** | `zainal` | `123` |
+| **Siswa** | `siswa1` | `123` |
+| **Guru** | `guru1` | `123` |
+| **Admin** | `admin` | `admin123` |
+| **Superadmin** | `superadmin` | `superadmin123` |
+
+---
+
+## 📡 API Endpoints
+
+### Base URL
+
+```
+http://localhost:8000/api
+```
+
+### Authentication
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/login` | Login (username + password) |
+| POST | `/api/logout` | Logout (butuh token) |
+
+### Siswa
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/siswa/{id}/dashboard` | Dashboard siswa |
+| GET | `/api/siswa/{id}/jadwal` | Jadwal pelajaran |
+| GET | `/api/siswa/{id}/nilai` | Daftar nilai |
+| GET | `/api/siswa/{id}/absensi` | Data absensi |
+| GET | `/api/siswa/{id}/absensi/rekap` | Rekap absensi |
+| GET | `/api/siswa/{id}/tugas` | Daftar tugas |
+| GET | `/api/siswa/{id}/poin` | Poin siswa |
+| GET | `/api/siswa/{id}/izin` | Data izin |
+| POST | `/api/siswa/{id}/izin` | Ajukan izin |
+| GET | `/api/siswa/{id}/profil` | Profil lengkap |
+| PUT | `/api/siswa/{id}/profil` | Update profil |
+
+### Guru
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/guru/{id}/dashboard` | Dashboard guru |
+| GET | `/api/guru/{id}/tugas` | Kelola tugas |
+| GET | `/api/guru/{id}/siswa` | Data siswa |
+| GET | `/api/guru/{id}/rekap-nilai` | Rekap nilai |
+| GET | `/api/guru/{id}/catatan-siswa` | Catatan siswa |
+
+### Public (Tanpa Login)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/pengumuman` | Daftar pengumuman |
+| GET | `/api/pengumuman/{id}` | Detail pengumuman |
+| GET | `/api/articles` | Daftar artikel |
+| GET | `/api/articles/{id}` | Detail artikel |
+| GET | `/api/ebooks` | Daftar e-book |
+| GET | `/api/ebooks/{id}` | Detail e-book |
+
+### User
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/users/{id}/notifikasi` | Notifikasi user |
+| POST | `/api/change-password` | Ganti password |
+
+---
+
+## 🗂 Struktur Database
+
+- `users` — Akun siswa, guru, admin, superadmin
+- `siswa` — Data siswa
+- `guru` — Data guru
+- `jadwals` — Jadwal pelajaran
+- `nilais` — Data nilai
+- `absensis` — Data absensi
+- `artikels` — Artikel
+- `ebooks` — E-Book
+- `pengumumans` — Pengumuman
+- `notifikasis` — Notifikasi
+- `tugases` — Tugas dari guru
+- `tugaskus` — Tugas siswa
+- `poin_siswas` — Poin siswa
+- `izin_siswas` — Izin siswa
+- `catatan_siswas` — Catatan siswa dari guru
+
+---
+
+## 📱 Flutter Frontend
+
+Frontend Flutter ada di repository terpisah:
+
+```bash
+git clone https://github.com/zainalsalamun/mobile_sekolah_apps.git
+cd mobile_sekolah_apps
+flutter pub get
+flutter run
+```
+
+### Konfigurasi API di Flutter
+
+- **Android Emulator:** `http://10.0.2.2:8000/api`
+- **iOS Simulator:** `http://localhost:8000/api`
+- **Real Device:** `http://[IP_KOMPUTER]:8000/api`
+
+Konfigurasi ada di `lib/core/service/api_service.dart`.
+
+---
+
+## 👨‍💻 Development
+
+```bash
+# Jalankan server dalam mode development
+php artisan serve --port=8000
+
+# Jalankan seeder ulang
+php artisan migrate:fresh --seed
+
+# Cek routes
+php artisan route:list
+
+# Cek database
+php artisan db:show
+```
+
+---
+
+## 📄 License
+
+MIT License.
