@@ -24,4 +24,23 @@ class JadwalController extends Controller
 
         return response()->json(['success' => true, 'data' => $jadwal]);
     }
+
+    public function hariIni(Request $request)
+    {
+        $user = $request->user();
+        $siswa = $user->siswa;
+
+        if (!$siswa) {
+            return response()->json(['success' => false, 'message' => 'Data siswa tidak ditemukan'], 404);
+        }
+
+        $hariIni = now()->locale('id')->dayName; // e.g. "Senin"
+
+        $jadwal = Jadwal::where('kelas', $siswa->kelas)
+            ->where('hari', $hariIni)
+            ->orderBy('jam_mulai')
+            ->get();
+
+        return response()->json(['success' => true, 'data' => $jadwal]);
+    }
 }
