@@ -4,24 +4,32 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Siswa;
-use Illuminuse Illuminuse Illuminuse Illuminuse Illuminuse Illu Controuse Illuminuse Illuminuse Illuexuse Illuminuse Illuminuse Illuminuse Illuminuse Illuminuse Illu Controuse Illuminuse Illuminuse Illuexuse Illuminuse Illuminuse Illuminuse Illuminuse Illuminuse Illu Controuse Illuminuse Illuminuse Illuexuse Illuminuse Illuminuse Illuminuse Illuminuse Illuminuse Illu Controuse Illuminuse Illuminuse Illuexuse Illuminuse Illuminuse Illuminuse Illuminuse Illuminuse Illu Controuse Illuminuse Illuminuse Illuexuse Illuminuse Illuminuse Illuminuse Illuminuse Illuminuse Illu Controuse Illuminuse Illuminuse Illuexuse Illuminuse Illuminuse Illuminuse Illuminuse Illuminuse Illu Controuse Illuminuse Illuminuse Illuexuse Illuminuse Illuminuse Illuminuse Illuminuse Illuminuse Illu Controuse Illuminuse Illuminuse Illuexuse IllumIlluse Illuminuse Illuminuse I
+use Illuminate\Http\Request;
 
-class RekapNilaiController extends Controller
+class DataSiswaController extends Controller
 {
     public function index(Request $request)
     {
         $user = $request->user();
-        $siswa = $user->siswa;
+        $guru = $user->guru;
 
-        if (!$siswa) {
-            return response()->json(['success' => false, 'message' => 'Data siswa tidak ditemukan'], 404);
+        if (!$guru) {
+            return response()->json(['success' => false, 'message' => 'Data guru tidak ditemukan'], 404);
         }
 
-        $rekap = Nilai::where('siswa_id', $siswa->id)
-            ->select('mapel', DB::raw('AVG(nilai) as rata_nilai'), DB::raw('COUNT(*) as jumlah_tugas'))
-            ->groupBy('mapel')
-            ->get();
+        $siswa = Siswa::when($guru->kelas_wali, function ($q) use ($guru) {
+            $q->where('kelas', $guru->kelas_wali);
+        })->orderBy('nama')->get();
 
-        return response()->json(['success' => true, 'data' => $rekap]);
+        return response()->json(['success' => true, 'data' => $siswa]);
+    }
+
+    public function show($id)
+    {
+        $siswa = Siswa::find($id);
+        if (!$siswa) {
+            return response()->json(['success' => false, 'message' => 'Siswa tidak ditemukan'], 404);
+        }
+        return response()->json(['success' => true, 'data' => $siswa]);
     }
 }
