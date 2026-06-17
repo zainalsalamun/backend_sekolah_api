@@ -20,13 +20,15 @@ class DashboardGuruController extends Controller
             return response()->json(['success' => false, 'message' => 'Data guru tidak ditemukan'], 404);
         }
 
-        $hariIni = strtolower(now()->locale('id')->dayName);
-        $jadwalHariIni = Jadwal::where('guru_id', $guru->id)
+        // Capitalize first letter to match DB format ("Senin", "Selasa", etc.)
+        $hariIni = ucfirst(now()->locale('id')->dayName);
+        // jadwals.guru is text (nama guru), not FK
+        $jadwalHariIni = Jadwal::where('guru', $guru->nama)
             ->where('hari', $hariIni)
             ->get();
 
-        $totalSiswa = Siswa::where('kelas', $guru->kelas_wali ?? '')->count();
-        $tugasAktif = Tugas::where('guru_id', $guru->id)->count();
+        $totalSiswa = Siswa::count();
+        $tugasAktif = Tugas::where('guru_id', $guru->id)->where('status', 'aktif')->count();
 
         return response()->json([
             'success' => true,
