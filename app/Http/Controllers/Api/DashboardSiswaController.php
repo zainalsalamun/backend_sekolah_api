@@ -25,47 +25,22 @@ class DashboardSiswaController extends Controller
             ], 404);
         }
 
-        // Get today's schedule
-        $hariIni = now()->locale('id')->dayName;
-        $jadwalHariIni = Jadwal::where('kelas', $siswa->kelas)
-            ->where('hari', ucfirst($hariIni))
-            ->orderBy('jam_mulai')
-            ->get();
-
-        // Get recent grades
-        $nilaiTerbaru = Nilai::where('siswa_id', $siswa->id)
+        // Get latest attendance status
+        $absensiTerbaru = Absensi::where('siswa_id', $siswa->id)
             ->orderByDesc('tanggal')
-            ->limit(5)
-            ->get();
+            ->first();
 
-        // Count unread notifications
-        $notifikasiBelumDibaca = Notifikasi::where('siswa_id', $siswa->id)
-            ->where('dibaca', false)
-            ->count();
-
-        // Get attendance stats this month
-        $absensiBulanIni = Absensi::where('siswa_id', $siswa->id)
-            ->whereMonth('tanggal', now()->month)
-            ->whereYear('tanggal', now()->year)
-            ->get();
-
-        // Get total poin
-        $totalPoin = PoinSiswa::where('siswa_id', $siswa->id)->sum('poin');
+        // Get average nilai
+        $nilaiRataRata = Nilai::where('siswa_id', $siswa->id)->avg('nilai');
 
         return response()->json([
             'success' => true,
             'data' => [
-                'siswa' => $siswa,
-                'jadwal_hari_ini' => $jadwalHariIni,
-                'nilai_terbaru' => $nilaiTerbaru,
-                'notifikasi_belum_dibaca' => $notifikasiBelumDibaca,
-                'rekap_absensi' => [
-                    'hadir' => $absensiBulanIni->where('status', 'Hadir')->count(),
-                    'izin' => $absensiBulanIni->where('status', 'Izin')->count(),
-                    'sakit' => $absensiBulanIni->where('status', 'Sakit')->count(),
-                    'alpha' => $absensiBulanIni->where('status', 'Alpha')->count(),
-                ],
-                'total_poin' => (int) $totalPoin,
+                'nama' => $siswa->nama,
+                'kelas' => $siswa->kelas,
+                'nis' => $siswa->nisn,
+                'status_absensi' => $absensiTerbaru ? $absensiTerbaru->status : 'Belum Absen',
+                'nilai_rata_rata' => round($nilaiRataRata ?? 0),
             ],
         ]);
     }
