@@ -18,10 +18,7 @@ class Guru extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function jadwals(): HasMany
-    {
-        return $this->hasMany(Jadwal::class);
-    }
+    // jadwals uses text 'guru' field (nama), not guru_id FK
 
     public function tugass(): HasMany
     {
