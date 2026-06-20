@@ -10,9 +10,7 @@ class PengumumanController extends Controller
 {
     public function index(Request $request)
     {
-        $pengumuman = Pengumuman::where('status', 'published')
-            ->orderByDesc('tanggal')
-            ->get();
+        $pengumuman = Pengumuman::orderByDesc('tanggal')->get();
 
         return response()->json(['success' => true, 'data' => $pengumuman]);
     }
