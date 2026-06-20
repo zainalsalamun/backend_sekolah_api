@@ -14,7 +14,34 @@ class NilaiGuruController extends Controller
         $guru = $user->guru;
 
         if (!$guru) {
-            return response()->json(['success' => false, 'message' => 'D            return response()->json(['success' => false, 'message' => 'D            return response()->json(['success' => false, 'message' => 'D            return response()->json(['success' => false, 'message' => 'D            return response()->json(['success' => false, 'message' => 'D            return response()->json(['success' => false, 'message' => 'D            return response()->json(['success' => false, 'message' => 'D            return response()->json(['success' => false, 'message' => 'D          c|m            return response()->json(['success' => fal',
+            return response()->json(['success' => false, 'message' => 'Data guru tidak ditemukan'], 404);
+        }
+
+        $nilai = Nilai::where('guru_id', $guru->id)
+            ->with('siswa')
+            ->orderBy('tanggal', 'desc')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $nilai,
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $user = $request->user();
+        $guru = $user->guru;
+
+        if (!$guru) {
+            return response()->json(['success' => false, 'message' => 'Data guru tidak ditemukan'], 404);
+        }
+
+        $request->validate([
+            'siswa_id' => 'required|exists:siswas,id',
+            'mapel' => 'required|string',
+            'nilai' => 'required|numeric|min:0|max:100',
+            'tipe' => 'required|string',
             'tanggal' => 'required|date',
         ]);
 
