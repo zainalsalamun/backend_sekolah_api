@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class PoinSiswa extends Model
 {
     protected $fillable = [
-        'siswa_id', 'tipe', 'deskripsi', 'poin', 'tanggal',
+        'siswa_id', 'aktivitas', 'tipe', 'poin', 'tanggal',
     ];
 
     public function siswa(): BelongsTo
