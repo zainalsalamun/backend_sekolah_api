@@ -7,12 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Pengumuman extends Model
 {
-    protected $fillable = [
-        'guru_id', 'judul', 'isi', 'tanggal', 'status',
-    ];
+    protected $table = 'pengumumen';
 
-    public function guru(): BelongsTo
-    {
-        return $this->belongsTo(Guru::class);
-    }
+    protected $fillable = [
+        'judul', 'isi', 'tanggal', 'kategori', 'untuk', 'prioritas',
+    ];
 }
