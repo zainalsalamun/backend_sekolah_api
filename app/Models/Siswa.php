@@ -9,9 +9,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Siswa extends Model
 {
     protected $fillable = [
-        'user_id', 'nama', 'nisn', 'kelas', 'jurusan',
-        'tanggal_lahir', 'alamat', 'telepon_orangtua',
+        'user_id', 'nis', 'nama', 'nisn', 'kelas', 'jurusan', 'no_absen',
+        'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'alamat',
+        'agama', 'no_hp', 'email', 'nama_ayah', 'nama_ibu',
+        'pekerjaan_ayah', 'pekerjaan_ibu', 'tanggal_masuk',
+        'status_siswa', 'foto_url', 'telepon_orangtua',
         'foto', 'total_poin', 'ranking', 'status',
+    ];
+
+    protected $casts = [
+        'tanggal_lahir' => 'date',
+        'tanggal_masuk' => 'date',
+        'mata_pelajaran' => 'array',
+        'kelas_ampu' => 'array',
     ];
 
     public function user(): BelongsTo
