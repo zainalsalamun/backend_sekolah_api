@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Jadwal extends Model
 {
     protected $fillable = [
-        'guru_id', 'mata_pelajaran', 'hari', 'jam_mulai',
-        'jam_selesai', 'ruangan', 'kelas', 'tipe',
+        'hari', 'mapel', 'jam_mulai',
+        'jam_selesai', 'guru', 'kelas', 'ruangan',
+        'warna', 'jenis',
     ];
 
-    public function guru(): BelongsTo
-    {
-        return $this->belongsTo(Guru::class);
-    }
+    // guru field is text (nama guru), not FK
 }
