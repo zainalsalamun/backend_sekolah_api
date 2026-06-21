@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Notifikasi extends Model
 {
     protected $fillable = [
-        'siswa_id', 'judul', 'isi', 'tipe', 'dibaca', 'tanggal',
+        'user_id', 'judul', 'isi', 'jenis', 'dibaca',
     ];
 
-    public function siswa(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Siswa::class);
+        return $this->belongsTo(User::class);
     }
 }
